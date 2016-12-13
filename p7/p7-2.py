@@ -6,15 +6,26 @@ support = 0
 
 lines = [l.strip() for l in f.readlines()]
 
-def supports_abba(s):
+def find_aba(s):
 	start = 0
-	while start + 4 <= len(s):
+	results = []
+	while start + 3 <= len(s):
 		if s[start] != s[start+1] and \
-		s[start] == s[start+3] and \
-		s[start+1] == s[start+2]:
-			return True
+		s[start] == s[start+2]:
+			results.append(s[start:start+3])
 		start += 1 
-	return False
+	return results
+
+
+def has_bab(aba, s):
+	print aba, s
+	result = False
+	for a in aba:
+		cand = a[1] + a[0] + a[1]
+		result |= True if s.find(cand) > -1 else False
+	return result
+
+
 
 def split_ipv7(s):
 	cur = 0
@@ -39,8 +50,13 @@ def split_ipv7(s):
 
 for l in lines:
 	split_line = split_ipv7(l)
-	#print split_line
-	if any([supports_abba(seg) for seg in split_line[0]]) and not any([supports_abba(seg) for seg in split_line[1]]):
+	aba_cand = []
+
+	for seg in split_line[0]:
+		aba_cand.extend(find_aba(seg))
+
+	if any(has_bab(aba_cand, s) for s in split_line[1]):
 		support += 1
+
 
 print support
