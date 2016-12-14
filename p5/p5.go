@@ -2,14 +2,13 @@ package main
 
 
 import (
-	"fmt"
 	"crypto/md5"
+	"fmt"
+	"sort"
 	"strconv"
 	"strings"
-	hex "encoding/hex"
 	"sync"
-	"sort"
-	//"io"
+	hex "encoding/hex"
 )
 
 

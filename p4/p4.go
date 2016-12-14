@@ -3,11 +3,9 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
-	"sort"
-	//"strconv"
-	"strings"
 	"regexp"
-	//"bufio"
+	"sort"
+	"strings"
 )
 
 func loadInput(filename string) (lines []string) {
@@ -21,7 +19,7 @@ func sortKeyMap(m map[string]int) (keys []string) {
 	// make the reverse map
 	rev_m := make(map[int]string)
 	var rev_keys []int
-	for k,v := range m {
+	for k, v := range m {
 		rev_m[v] = k
 	}
 	fmt.Println("!!!!!", rev_m)
@@ -53,7 +51,7 @@ func main() {
 	for _, line := range lines {
 		a := r.FindAllStringSubmatch(line, -1)
 		if len(a[0]) != 4 {
-			fmt.Println("Whoops: " , line, " splits into ", len(a[0]), " parts which are: ", a[0])
+			fmt.Println("Whoops: ", line, " splits into ", len(a[0]), " parts which are: ", a[0])
 			break
 		}
 		name := a[0][1]
@@ -77,8 +75,6 @@ func main() {
 		fmt.Println(sortKeyMap(name_cnt))
 		break
 
-
 	}
-
 
 }
