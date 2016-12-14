@@ -1,4 +1,4 @@
-f = open('p9_test2.input')
+f = open('p9.input')
 
 compressed_seqs = [l.strip() for l in f.readlines()]
 
@@ -47,13 +47,13 @@ def decompress(start, seq):
 
 def decompress2(start, seq):
 	length = 0
-	data = seq
 	cur = start
 	marker = False
-	while data:
+	#import pdb;pdb.set_trace()
+	while True:
 		# read chars until marker
-		while cur < len(data):
-			if data[cur] != '(':
+		while cur < len(seq):
+			if seq[cur] != '(':
 				length += 1
 				cur += 1
 			else:
@@ -75,21 +75,19 @@ def decompress2(start, seq):
 			repeat_times = int(repeat_times)
 			data_start = marker_end + 1
 			compressed_seq = seq[data_start:data_start+num_chars]
-			print compressed_seq
-			#data, decompressed_length = decompress2(marker_end+1, )
+			#print compressed_seq
+			_, decompressed_length = decompress2(0, compressed_seq)
+
+			length += decompressed_length * repeat_times
+			cur = data_start+num_chars
+			marker = False
 
 		# No marker found before end of data
 		else:
 			return None, length
 
 
-
-
-
-
-
-
-	return data, length
+	return None, length
 
 
 
@@ -97,6 +95,6 @@ def decompress2(start, seq):
 for seq in compressed_seqs:
 	_, decompressed_length = decompress2(0, seq)
 	print decompressed_length
-	break
+	#break
 	
 
