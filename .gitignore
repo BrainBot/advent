@@ -87,3 +87,5 @@ ENV/
 
 # Rope project settings
 .ropeproject
+p5/output_parser.py
+p5/p5.output
