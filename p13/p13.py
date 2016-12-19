@@ -13,11 +13,6 @@ START = (1,1)
 office_map = []
 biggest_row = 0
 
-def calc_dist(start, goal):
-    x_dist = goal[0] - start[0]
-    y_dist = goal[1] - start[1]
-    return sqrt(x_dist*x_dist + y_dist*y_dist)
-
 def get_room(pos):
     global biggest_row
     x, y = pos
@@ -46,43 +41,14 @@ def adjacent_nodes(pos):
         results.append((x,y+1))
     return results
 
-valid_paths = []
-visted = {}
-
-def search2(cur_room, path, target, steps_away):
-    print cur_room
-    if cur_room == (20, 24):
-        pdb.set_trace()
-    if cur_room == target:
-        valid_paths.append(path)
-        return
-
-    # early exit
-    if steps_away > 7:
-        return
-    cur_dist = calc_dist(cur_room, target)
-    visted[cur_room] = cur_dist
-    adj = adjacent_nodes(cur_room)
-    
-    for a in adj:
-        if a in visted:
-            print "already visted: ", a
-            next_dist = calc_dist(a, target)
-            if next_dist < visted[a]:
-                visted[a] = next_dist
-            else:
-                continue
-        steps = steps_away
-        if calc_dist(a, target) > cur_dist:
-            steps += 1
-        else:
-            steps = 0
-        search2(a, path+[a], target, steps)
-
 def search(current_front):
     rooms = []
     for room in current_front:
-        rooms.extend(adjacent_nodes(room))
+        adj = adjacent_nodes(room)
+        for a in adj:
+            if a not in visted:
+                rooms.append(a)
+            visted.add(a)
     return rooms
 
 def is_open(x,y):
@@ -117,19 +83,17 @@ for i in range(90):
     get_room((90,i))
 
 i = 0
+visted = set()
+pdb.set_trace()
 current_rooms = [START]
-while TARGET not in current_rooms:
+
+while TARGET not in current_rooms and len(current_rooms) != 0:
+    if i == 50:
+        print len(visted)
+
     i += 1
     current_rooms = search(current_rooms)
-    print current_rooms
 print i
-
-#pdb.set_trace()
-# search2(START, [START], TARGET, 0)
-
-# for path in valid_paths:
-#     print_map(office_map, path)
-#     print len(path)-1, path
 
 
 
